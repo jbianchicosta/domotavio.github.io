@@ -3,47 +3,130 @@
 <head>
   <meta charset="UTF-8" />
   <title>Conecte-se ao Wi-Fi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 30px;
+    :root {
+      --primary: #1da1f2;
+      --facebook: #3b5998;
+      --instagram: #e1306c;
+      --bg: #f9f9f9;
+      --text: #333;
     }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .container {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 26px;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
     .btn {
-      margin-top: 20px;
-      background: #28a745;
-      color: white;
-      padding: 15px 30px;
-      font-size: 18px;
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 15px;
+      font-size: 16px;
       border: none;
-      border-radius: 5px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      color: white;
+    }
+
+    .btn-instagram {
+      background: var(--instagram);
+    }
+
+    .btn-facebook {
+      background: var(--facebook);
+    }
+
+    .btn-liberar {
+      background: var(--primary);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-liberar.enabled {
+      opacity: 1;
       cursor: pointer;
     }
-    iframe {
-      width: 100%;
-      height: 400px;
-      border: none;
-      margin-top: 20px;
+
+    .btn:hover:not(:disabled) {
+      filter: brightness(1.1);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Bem-vindo ao Wi-Fi</h1>
-  <p>Para acessar a internet, siga nosso Instagram ou curta nossa página no Facebook!</p>
+  <div class="container">
+    <h1>Bem-vindo ao Wi-Fi</h1>
+    <p>Para acessar a internet, siga-nos no Instagram e curta nossa página no Facebook.</p>
 
-  <a href="https://www.instagram.com/sua_pagina" target="_blank">
-    <button class="btn">Seguir no Instagram</button>
-  </a>
+    <button class="btn btn-instagram" onclick="marcaClique('instagram')">Seguir no Instagram</button>
 
-  <a href="https://www.facebook.com/sua_pagina" target="_blank">
-    <button class="btn">Curtir no Facebook</button>
-  </a>
+    <button class="btn btn-facebook" onclick="marcaClique('facebook')">Curtir no Facebook</button>
 
-  <form method="post" action="http://unifi-portal.com:8880/guest/s/">
-    <input type="hidden" name="id" value="$id$" />
-    <input type="hidden" name="ap" value="$ap$" />
-    <input type="hidden" name="t" value="$t$" />
-    <input type="submit" class="btn" value="Já Curti / Liberar Acesso" />
-  </form>
+    <form method="post" action="http://192.168.235.50:8443/guest/s/">
+      <input type="hidden" name="id" value="$id$" />
+      <input type="hidden" name="ap" value="$ap$" />
+      <input type="hidden" name="t" value="$t$" />
+      <button type="submit" class="btn btn-liberar" id="btnLiberar" disabled>Já Curti / Liberar Acesso</button>
+    </form>
+  </div>
+
+  <script>
+    let clicouInstagram = false;
+    let clicouFacebook = false;
+
+    function marcaClique(rede) {
+      if (rede === 'instagram') {
+        clicouInstagram = true;
+        window.open("https://www.instagram.com/domotavio.maringa/", "_blank");
+      } else if (rede === 'facebook') {
+        clicouFacebook = true;
+        window.open("https://www.instagram.com/domotavio.maringa/", "_blank");
+      }
+
+      // Ativa o botão quando ambos forem clicados
+      if (clicouInstagram && clicouFacebook) {
+        const botao = document.getElementById('btnLiberar');
+        botao.classList.add("enabled");
+        botao.disabled = false;
+      }
+    }
+  </script>
 </body>
 </html>
