@@ -121,7 +121,7 @@
       }
 
       // Ativa o botão quando ambos forem clicados
-      if (clicouInstagram && clicouFacebook) {
+      if (clicouInstagram || clicouFacebook) {
         const botao = document.getElementById('btnLiberar');
         botao.classList.add("enabled");
         botao.disabled = false;
